@@ -1,0 +1,27 @@
+#!/bin/sh
+import subprocess
+import os
+
+# Path to the C file
+CFILE = "path/to/your/c/file.c"
+
+# Output file name
+output_file = "c"
+
+# Run the preprocessor
+preprocessed_file = "preprocessed.c"
+preprocessor_cmd = ["gcc", "-E", CFILE, "-o", preprocessed_file]
+subprocess.run(preprocessor_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+
+# Check if the preprocessor succeeded
+if not os.path.isfile(preprocessed_file):
+    print("Preprocessing failed. Please check the C file and try again.")
+else:
+    # Save the preprocessed result to the output file
+    with open(preprocessed_file, 'r') as f_in, open(output_file, 'w') as f_out:
+        f_out.write(f_in.read())
+    
+    print("Preprocessing completed successfully. Output saved to", output_file)
+    # Optionally, you can remove the preprocessed file
+    os.remove(preprocessed_file)
+
